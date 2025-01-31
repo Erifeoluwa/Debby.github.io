@@ -1,0 +1,6 @@
+SELECT year,format,
+((revenue - LAG(revenue) OVER (PARTITION BY format ORDER BY year)) /LAG(revenue) OVER (PARTITION BY format ORDER BY year)) *100 AS growth_rate
+FROM digital_media_revenue
+WHERE format IN ("Download Album", "Downloaded Muisc Video","Download Single","Paid Subscription","Ringtones and Ringtones")
+AND LAG(revenue) OVER (PARTITION BY format ORDER BY year) IS NOT NULL
+ORDER BY growth_rate DESC;
